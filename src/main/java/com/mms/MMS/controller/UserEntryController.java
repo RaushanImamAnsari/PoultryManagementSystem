@@ -1,7 +1,9 @@
 package com.mms.MMS.controller;
 
+import com.mms.MMS.model.User;
 import com.mms.MMS.model.UserEntry;
 import com.mms.MMS.service.UserEntryService;
+import com.mms.MMS.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,10 +22,14 @@ public class UserEntryController {
     @Autowired
     private UserEntryService userEntryService;
 
+    @Autowired
+    UserService userService;
 
-    @GetMapping("/list")
-    public ResponseEntity<?> getAllUsers(){
-         List<UserEntry> alluser = userEntryService.getAll();
+
+    @GetMapping("/list/{userName}")
+    public ResponseEntity<?> getAllUserEntriesOfUser(@PathVariable String userName){
+        User user = userService.findByUserName(userName);
+         List<UserEntry> alluser = user.getUserEntryList();
          if(alluser != null && !alluser.isEmpty()){
              return new ResponseEntity<>(alluser, HttpStatus.OK);
          }
@@ -31,11 +37,11 @@ public class UserEntryController {
     }
 
 
-    @PostMapping("/create")
-    public ResponseEntity<UserEntry> createEntry(@RequestBody UserEntry userEntry){
+    @PostMapping("/create/{userName}")
+    public ResponseEntity<UserEntry> createEntry(@RequestBody UserEntry userEntry, @PathVariable String userName){
         try{
             userEntry.setDate(LocalDateTime.now());
-            userEntryService.savedUser(userEntry);
+            userEntryService.savedUser(userEntry, userName);
             return new ResponseEntity<>(userEntry, HttpStatus.CREATED);
         }
         catch (Exception e){
@@ -58,8 +64,10 @@ public class UserEntryController {
     }
     
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updatingData(@PathVariable ObjectId id, @RequestBody UserEntry update){
+    @PutMapping("/update/{userName}/{id}")
+    public ResponseEntity<?> updatingData(@PathVariable ObjectId id,
+                                          @RequestBody UserEntry update,
+                                          @PathVariable String userName){
         UserEntry oldUserEntry = userEntryService.userById(id).orElse(null);
 
         if(oldUserEntry != null){
@@ -73,9 +81,9 @@ public class UserEntryController {
 
     }
 
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable ObjectId id) {
-        userEntryService.deleteUserById(id);
+    @DeleteMapping("/delete/{userName}/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable ObjectId id, @PathVariable String userName) {
+        userEntryService.deleteUserById(id, userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

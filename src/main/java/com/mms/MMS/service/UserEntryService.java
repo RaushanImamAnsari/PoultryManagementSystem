@@ -1,6 +1,7 @@
 package com.mms.MMS.service;
 
 
+import com.mms.MMS.model.User;
 import com.mms.MMS.model.UserEntry;
 import com.mms.MMS.repository.UserEntryRepo;
 import org.bson.types.ObjectId;
@@ -17,6 +18,16 @@ public class UserEntryService {
     @Autowired
     UserEntryRepo userEntryRepo;
 
+    @Autowired
+    UserService userService;
+
+    public void  savedUser(UserEntry userEntry, String userName){
+        User user = userService.findByUserName(userName);
+        UserEntry saved = userEntryRepo.save(userEntry);
+        user.getUserEntryList().add(saved);
+        userService.savedUser(user);
+    }
+
     public void  savedUser(UserEntry userEntry){
         userEntryRepo.save(userEntry);
     }
@@ -31,7 +42,10 @@ public class UserEntryService {
     }
 
 
-    public void deleteUserById(ObjectId id){
-         userEntryRepo.deleteById(id);
+    public void deleteUserById(ObjectId id, String userName){
+        User user = userService.findByUserName(userName);
+        user.getUserEntryList().removeIf(x -> x.getId().equals(id));
+        userService.savedUser(user);
+        userEntryRepo.deleteById(id);
     }
 }
