@@ -4,6 +4,8 @@ import com.mms.MMS.model.User;
 import com.mms.MMS.service.UserService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +30,21 @@ public class UserController {
         return "User Saved!!";
     }
 
-    public User updateUser(ObjectId id, @RequestBody User user){
-
-
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateUser(@PathVariable ObjectId id, @RequestBody User user){
+        User oldUser = userService.userById(id).orElse(null);
+        if(oldUser != null){
+            oldUser.setUserName(user.getUserName());
+            oldUser.setUserPassword(user.getUserPassword());
+            userService.savedUser(oldUser);
+        }
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    public ResponseEntity<?> deleteUser(ObjectId id){
+        userService.deleteUserById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-
-
+    }
 
 }
