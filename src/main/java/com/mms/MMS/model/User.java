@@ -24,5 +24,5 @@ public class User {
     private String userPassword;
 
     @DBRef
-        private List<UserEntry> userEntryList = new ArrayList<>();
+    private List<UserEntry> userEntryList = new ArrayList<>();
 }
