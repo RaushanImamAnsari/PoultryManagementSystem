@@ -9,14 +9,14 @@ import java.time.LocalDateTime;
 
 //@Getter
 //@Setter
-//@NoArgsConstructor
 //@AllArgsConstructor
 @Data    // @Data --> @Getter + @Setter + @ToString + @EqualsAndHashCode + @RequiredArgsConstructor
+@NoArgsConstructor
 @Document(collection = "entries")
 public class UserEntry {
 
     @Id
-    private ObjectId number;
+    private ObjectId id;
     @NonNull
     private String title;
     private String password;
