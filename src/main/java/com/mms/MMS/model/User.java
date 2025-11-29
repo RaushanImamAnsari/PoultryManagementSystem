@@ -23,6 +23,10 @@ public class User {
     @NonNull
     private String userPassword;
 
+    private List<String> roles;
+
     @DBRef
     private List<UserEntry> userEntryList = new ArrayList<>();
+
+
 }
