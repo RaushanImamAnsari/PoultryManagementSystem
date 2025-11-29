@@ -2,8 +2,6 @@ package com.mms.MMS.service;
 
 
 import com.mms.MMS.model.User;
-import com.mms.MMS.model.UserEntry;
-import com.mms.MMS.repository.UserEntryRepo;
 import com.mms.MMS.repository.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
