@@ -6,6 +6,8 @@ import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,25 +26,28 @@ public class UserController {
         return userService.getAll();
     }
 
-    @PostMapping("/add")
-    public String createUser(@RequestBody User user){
-        userService.savedUser(user);
-        return "User Saved!!";
-    }
+//    @PostMapping("/add")
+//    public String createUser(@RequestBody User user){
+//        userService.savedUser(user);
+//        return "User Saved!!";
+//    }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateUser(@PathVariable ObjectId id, @RequestBody User user){
-        User oldUser = userService.userById(id).orElse(null);
-        if(oldUser != null){
-            oldUser.setUserName(user.getUserName());
-            oldUser.setUserPassword(user.getUserPassword());
-            userService.savedUser(oldUser);
-        }
+    @PutMapping("/update")
+    public ResponseEntity<?> updateUser(@RequestBody User user){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        User oldUser = userService.findByUserName(userName);
+        oldUser.setUserName(user.getUserName());
+        oldUser.setUserPassword(user.getUserPassword());
+        userService.savedUser(oldUser);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @DeleteMapping
     public ResponseEntity<?> deleteUser(ObjectId id){
-        userService.deleteUserById(id);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        userService.deleteByUserName(userName);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
     }

@@ -16,6 +16,8 @@ import java.util.Optional;
 public class UserEntryService {
 
 
+//    private static PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @Autowired
     UserEntryRepo userEntryRepo;
 
@@ -39,6 +41,7 @@ public class UserEntryService {
     }
 
     public void  savedUser(UserEntry userEntry){
+//        userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
         userEntryRepo.save(userEntry);
     }
 

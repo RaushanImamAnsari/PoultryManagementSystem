@@ -23,10 +23,11 @@ public class User {
     @NonNull
     private String userPassword;
 
-    private List<String> roles;
-
     @DBRef
     private List<UserEntry> userEntryList = new ArrayList<>();
+
+
+    private List<String> roles = new ArrayList<>(List.of("USER"));
 
 
 }
