@@ -2,7 +2,6 @@ package com.mms.MMS.controller;
 
 import com.mms.MMS.model.User;
 import com.mms.MMS.service.UserService;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,12 +24,6 @@ public class UserController {
     public List<User> getAllUser(){
         return userService.getAll();
     }
-
-//    @PostMapping("/add")
-//    public String createUser(@RequestBody User user){
-//        userService.savedUser(user);
-//        return "User Saved!!";
-//    }
 
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody User user){
