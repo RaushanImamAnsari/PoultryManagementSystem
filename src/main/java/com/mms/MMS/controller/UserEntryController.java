@@ -36,8 +36,8 @@ public class UserEntryController {
          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
-    @PostMapping("/create/{userName}")
+    
+    @PostMapping("/createUserEntry/{userName}")
     public ResponseEntity<UserEntry> createEntry(@RequestBody UserEntry userEntry, @PathVariable String userName){
         try{
             userEntry.setDate(LocalDateTime.now());
@@ -62,7 +62,7 @@ public class UserEntryController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    
+
 
     @PutMapping("/update/{userName}/{id}")
     public ResponseEntity<?> updatingData(@PathVariable ObjectId id,

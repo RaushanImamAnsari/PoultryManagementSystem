@@ -2,13 +2,11 @@ package com.mms.MMS.service;
 
 
 import com.mms.MMS.model.User;
-import com.mms.MMS.model.UserEntry;
-import com.mms.MMS.repository.UserEntryRepo;
 import com.mms.MMS.repository.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +17,12 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
+
     public void savedUser(User user){
+        user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
         userRepo.save(user);
     }
 
@@ -35,6 +38,10 @@ public class UserService {
 
     public void deleteUserById(ObjectId id){
         userRepo.deleteById(id);
+    }
+
+    public void deleteByUserName(String userName){
+        userRepo.deleteByUserName(userName);
     }
 
     public User findByUserName(String userName){
