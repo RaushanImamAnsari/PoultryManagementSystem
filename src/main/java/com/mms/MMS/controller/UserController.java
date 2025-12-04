@@ -32,7 +32,7 @@ public class UserController {
         User oldUser = userService.findByUserName(userName);
         oldUser.setUserName(user.getUserName());
         oldUser.setUserPassword(user.getUserPassword());
-        userService.savedUser(oldUser);
+        userService.saveNewUser(oldUser);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
