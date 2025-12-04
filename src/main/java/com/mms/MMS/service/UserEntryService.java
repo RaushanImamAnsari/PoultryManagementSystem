@@ -32,7 +32,6 @@ public class UserEntryService {
             User user = userService.findByUserName(userName);
             UserEntry saved = userEntryRepo.save(userEntry);
             user.getUserEntryList().add(saved);
-//            user.setUserName(null);
             userService.savedUser(user);
         }catch (Exception e){
             System.out.print(e);
@@ -41,7 +40,6 @@ public class UserEntryService {
     }
 
     public void  savedUser(UserEntry userEntry){
-//        userEntry.setPassword(passwordEncoder.encode(userEntry.getPassword()));
         userEntryRepo.save(userEntry);
     }
 
@@ -55,10 +53,23 @@ public class UserEntryService {
     }
 
 
-    public void deleteUserById(ObjectId id, String userName){
-        User user = userService.findByUserName(userName);
-        user.getUserEntryList().removeIf(x -> x.getId().equals(id));
-        userService.savedUser(user);
-        userEntryRepo.deleteById(id);
+    @Transactional
+    public boolean deleteUserById(ObjectId id, String userName){
+
+        boolean removed = false;
+        try {
+            User user = userService.findByUserName(userName);
+            removed = user.getUserEntryList().removeIf(x -> x.getId().equals(id));
+
+            if(removed){
+                userService.savedUser(user);
+                userEntryRepo.deleteById(id);
+            }
+        }
+        catch (Exception e){
+            System.out.print(e);
+            throw new RuntimeException("An error occure while deleting user");
+        }
+        return removed;
     }
 }

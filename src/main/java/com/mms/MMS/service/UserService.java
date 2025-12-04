@@ -21,8 +21,12 @@ public class UserService {
     PasswordEncoder passwordEncoder;
 
 
-    public void savedUser(User user){
+    public void saveNewUser(User user){
         user.setUserPassword(passwordEncoder.encode(user.getUserPassword()));
+        userRepo.save(user);
+    }
+
+    public void savedUser(User user){    // for saving the UserEntries
         userRepo.save(user);
     }
 
