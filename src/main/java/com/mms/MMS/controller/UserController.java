@@ -20,11 +20,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/list")
-    public List<User> getAllUser(){
-        return userService.getAll();
-    }
-
     @PutMapping("/update")
     public ResponseEntity<?> updateUser(@RequestBody User user){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
