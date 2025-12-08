@@ -64,11 +64,6 @@ public class UserEntryController {
         }
     }
 
-//    @GetMapping("/id/{id}")
-//    public User getUserById(@PathVariable ObjectId id){
-//        return userService.userById(id).orElse(null);
-//    }
-
     @GetMapping("/id/{id}")
     public ResponseEntity<UserEntry> getUserById(@PathVariable ObjectId id){
 
@@ -106,7 +101,6 @@ public class UserEntryController {
            }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-
     }
 
     @DeleteMapping("/delete/{id}")
