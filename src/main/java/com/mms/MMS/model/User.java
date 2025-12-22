@@ -26,5 +26,4 @@ public class User {
     private List<UserEntry> userEntryList = new ArrayList<>();
 
     private List<String> roles = new ArrayList<>();
-
 }
