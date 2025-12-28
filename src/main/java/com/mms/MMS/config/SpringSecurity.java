@@ -19,6 +19,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class SpringSecurity {
 
+
     @Autowired
     UserDetailsServiceImpl userDetailService;
 
