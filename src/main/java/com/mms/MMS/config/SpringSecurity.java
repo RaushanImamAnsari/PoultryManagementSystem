@@ -22,6 +22,7 @@ public class SpringSecurity {
     @Autowired
     UserDetailsServiceImpl userDetailService;
 
+
     @Bean
     public AuthenticationProvider authenticationProvider(){
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
