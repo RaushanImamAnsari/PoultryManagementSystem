@@ -37,8 +37,6 @@ public class UserEntryController {
     }
 
 
-
-
     @GetMapping("/list")
     public ResponseEntity<?> getAllUserEntriesOfUser(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
